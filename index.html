@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MyStock Guard</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <aside class="rail" aria-label="주요 메뉴">
+        <div class="brand">
+          <span class="brand-mark" aria-hidden="true">M</span>
+          <div>
+            <strong>MyStock Guard</strong>
+            <span>승인 기반 투자 도우미</span>
+          </div>
+        </div>
+
+        <nav class="nav-list" aria-label="화면 이동">
+          <button class="nav-item active" type="button" data-view="today">오늘</button>
+          <button class="nav-item" type="button" data-view="stocks">종목</button>
+          <button class="nav-item" type="button" data-view="manage">관리</button>
+        </nav>
+
+        <section class="guard-panel">
+          <span class="guard-dot" aria-hidden="true"></span>
+          <div>
+            <strong>수동 승인 모드</strong>
+            <p>알림, 주문, 자동화는 확인 후 실행됩니다.</p>
+          </div>
+        </section>
+      </aside>
+
+      <section class="content">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow">매일 오전 8시 리포트</p>
+            <h1>오늘 볼 것만 짧게 확인하세요</h1>
+            <p class="data-stamp" id="dataStamp">데이터를 불러오는 중입니다.</p>
+          </div>
+          <div class="top-actions">
+            <button class="icon-button" type="button" id="refreshView" aria-label="새로고침" title="새로고침">↻</button>
+            <button class="primary-button" type="button" id="runPreview">리포트 검토</button>
+          </div>
+        </header>
+
+        <section class="view active" data-view-panel="today">
+          <section class="market-strip" aria-label="시장 요약">
+            <article>
+              <span>KOSPI</span>
+              <strong id="kospiValue">-</strong>
+              <em id="kospiChange" class="flat">-</em>
+            </article>
+            <article>
+              <span>KOSDAQ</span>
+              <strong id="kosdaqValue">-</strong>
+              <em id="kosdaqChange" class="flat">-</em>
+            </article>
+            <article>
+              <span>USD/KRW</span>
+              <strong id="usdKrwValue">-</strong>
+              <em id="usdKrwChange" class="flat">-</em>
+            </article>
+            <article>
+              <span>승인 대기</span>
+              <strong id="pendingCount">0건</strong>
+              <em class="flat">대기 중</em>
+            </article>
+          </section>
+
+          <section class="dashboard-grid">
+            <section class="panel">
+              <div class="panel-head compact">
+                <div>
+                  <p class="eyebrow">오늘 추천</p>
+                  <h2>상위 후보</h2>
+                </div>
+                <button class="secondary-button compact-button" type="button" data-jump-view="stocks">전체 보기</button>
+              </div>
+              <div id="todayTopList" class="compact-list" aria-live="polite"></div>
+            </section>
+
+            <section class="panel">
+              <div class="panel-head compact">
+                <div>
+                  <p class="eyebrow">이슈</p>
+                  <h2>반영된 기준</h2>
+                </div>
+                <span class="status-pill">검토 필요</span>
+              </div>
+              <ul class="issue-list" id="issueList"></ul>
+            </section>
+
+            <section class="panel report-panel">
+              <div class="panel-head compact">
+                <div>
+                  <p class="eyebrow">자동화</p>
+                  <h2>아침 리포트</h2>
+                </div>
+                <span class="status-pill muted">08:00</span>
+              </div>
+              <div class="status-grid">
+                <span>데이터 갱신</span><strong>07:50 예약</strong>
+                <span>텔레그램 발송</span><strong>08:00 예약</strong>
+                <span>자동 주문</span><strong>비활성</strong>
+              </div>
+            </section>
+          </section>
+        </section>
+
+        <section class="view" data-view-panel="stocks">
+          <section class="stocks-layout">
+            <section class="panel">
+              <div class="panel-head">
+                <div>
+                  <p class="eyebrow">추천 종목</p>
+                  <h2>점수 순위</h2>
+                </div>
+                <div class="segmented" role="tablist" aria-label="시장 선택">
+                  <button class="segment active" type="button" data-market="kospi">코스피</button>
+                  <button class="segment" type="button" data-market="kosdaq">코스닥</button>
+                </div>
+              </div>
+              <div id="recommendationList" class="recommendation-list" aria-live="polite"></div>
+            </section>
+
+            <aside class="side-stack">
+              <section class="panel chart-panel" id="chartPanel">
+                <div class="panel-head compact">
+                  <div>
+                    <p class="eyebrow">선택 종목</p>
+                    <h2 id="chartTitle">-</h2>
+                  </div>
+                  <span class="status-pill muted" id="chartCode">-</span>
+                </div>
+                <div class="chart-summary">
+                  <strong id="chartPrice">-</strong>
+                  <span id="chartChange" class="flat">-</span>
+                </div>
+                <div class="detail-metrics" id="chartMetrics" aria-label="선택 종목 주요 지표"></div>
+                <div class="chart-box" id="chartBox" aria-label="선택 종목 7일 가격 차트"></div>
+                <div class="chart-days" id="chartDays"></div>
+                <p class="panel-note" id="chartReason">종목을 선택하면 추천 근거를 볼 수 있습니다.</p>
+              </section>
+            </aside>
+          </section>
+        </section>
+
+        <section class="view" data-view-panel="manage">
+          <section class="manage-grid">
+            <section class="panel">
+              <div class="panel-head compact">
+                <div>
+                  <p class="eyebrow">알림</p>
+                  <h2>채널 설정</h2>
+                </div>
+                <span class="status-pill muted">대기</span>
+              </div>
+              <label class="switch-row">
+                <input type="checkbox" id="telegramToggle" />
+                <span>텔레그램 추천 리포트</span>
+              </label>
+              <label class="switch-row">
+                <input type="checkbox" id="kakaoToggle" />
+                <span>카카오톡 추천 리포트</span>
+              </label>
+              <button class="secondary-button full" type="button" id="requestAlertApproval">알림 발송 승인 요청</button>
+            </section>
+
+            <section class="panel">
+              <div class="panel-head compact">
+                <div>
+                  <p class="eyebrow">원격 작업</p>
+                  <h2>텔레그램 봇</h2>
+                </div>
+                <span class="status-pill muted">수동 확인</span>
+              </div>
+              <div class="status-grid">
+                <span>/status</span><strong>상태 확인</strong>
+                <span>/update-data</span><strong>추천 데이터 갱신</strong>
+                <span>/daily-report</span><strong>리포트 즉시 발송</strong>
+                <span>/task</span><strong>요청 저장</strong>
+              </div>
+            </section>
+
+            <section class="panel">
+              <div class="panel-head compact">
+                <div>
+                  <p class="eyebrow">안전장치</p>
+                  <h2>자동매매 잠금</h2>
+                </div>
+                <span class="status-pill lock">잠금</span>
+              </div>
+              <div class="status-grid">
+                <span>계좌 연결</span><strong>미연결</strong>
+                <span>매수 주문</span><strong>승인 필요</strong>
+                <span>매도 주문</span><strong>승인 필요</strong>
+              </div>
+              <button class="danger-button full" type="button" disabled>자동매매 비활성화</button>
+            </section>
+          </section>
+        </section>
+
+        <section class="approval-drawer" id="approvalDrawer" aria-live="polite">
+          <div>
+            <strong id="approvalTitle">승인 대기 없음</strong>
+            <p id="approvalBody">추천, 알림, 주문은 사용자의 명시적 승인 후에만 진행합니다.</p>
+          </div>
+          <div class="approval-actions">
+            <button class="secondary-button" type="button" id="rejectAction">취소</button>
+            <button class="primary-button" type="button" id="approveAction">승인</button>
+          </div>
+        </section>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>
