@@ -1,10 +1,15 @@
 {
-  "asOf": "2026-05-22",
-  "generatedAt": "2026-05-22T23:32:51",
-  "source": "Naver Finance",
-  "note": "Auto-updated from Naver Finance at 2026-05-22 23:32.",
+  "asOf": "2026-05-23",
+  "generatedAt": "2026-05-23T16:39:43",
+  "source": "Naver Finance + FinanceDataReader",
+  "note": "Auto-updated from Naver Finance at 2026-05-23 16:39; history enriched by FinanceDataReader.",
   "quoteRefresh": {
     "source": "Naver Finance",
+    "updated": 10,
+    "failed": []
+  },
+  "historyRefresh": {
+    "source": "FinanceDataReader",
     "updated": 10,
     "failed": []
   },
@@ -40,37 +45,25 @@
           "per": 6.6,
           "pbr": 0.48,
           "chart": [
-            155800,
-            155800,
-            155800,
-            155800,
-            155800,
+            156000,
+            155600,
+            153000,
+            152800,
+            151700,
             155800,
             160000
           ],
           "theme": "금융·저PBR",
           "reason": "저PBR 개선 정책 수혜와 자사주 소각 기대가 함께 반영되고 있습니다. PER 6.6배, PBR 0.48배를 함께 반영했습니다.",
-          "score": 92
-        },
-        {
-          "name": "기아",
-          "code": "000270",
-          "price": 164800,
-          "change": -1.85,
-          "per": 5.1,
-          "pbr": 0.71,
-          "chart": [
-            167900,
-            167900,
-            167900,
-            167900,
-            167900,
-            167900,
-            164800
-          ],
-          "theme": "자동차·배당",
-          "reason": "이익 안정성과 배당 매력이 높고, 글로벌 판매 둔화 우려가 가격에 일부 반영되었습니다. PER 5.1배, PBR 0.71배를 함께 반영했습니다.",
-          "score": 85
+          "trend": {
+            "source": "FinanceDataReader",
+            "latestClose": 160000,
+            "latestVolume": 1108335,
+            "averageVolume": 1176065,
+            "volumeRatio": 0.94,
+            "fiveDayChange": 2.56
+          },
+          "score": 93
         },
         {
           "name": "현대차",
@@ -80,17 +73,53 @@
           "per": 5.8,
           "pbr": 0.64,
           "chart": [
-            666000,
-            666000,
-            666000,
-            666000,
-            666000,
+            712000,
+            700000,
+            663000,
+            604000,
+            592000,
             666000,
             655000
           ],
           "theme": "자동차·주주환원",
           "reason": "환율 효과와 주주환원 기대가 유지되는 가운데 PER/PBR이 업종 평균보다 낮습니다. PER 5.8배, PBR 0.64배를 함께 반영했습니다.",
-          "score": 84
+          "trend": {
+            "source": "FinanceDataReader",
+            "latestClose": 655000,
+            "latestVolume": 997831,
+            "averageVolume": 2359240,
+            "volumeRatio": 0.42,
+            "fiveDayChange": -8.01
+          },
+          "score": 79
+        },
+        {
+          "name": "기아",
+          "code": "000270",
+          "price": 164800,
+          "change": -1.85,
+          "per": 5.1,
+          "pbr": 0.71,
+          "chart": [
+            178100,
+            168000,
+            162500,
+            154900,
+            149400,
+            167900,
+            164800
+          ],
+          "theme": "자동차·배당",
+          "reason": "이익 안정성과 배당 매력이 높고, 글로벌 판매 둔화 우려가 가격에 일부 반영되었습니다. PER 5.1배, PBR 0.71배를 함께 반영했습니다.",
+          "trend": {
+            "source": "FinanceDataReader",
+            "latestClose": 164800,
+            "latestVolume": 900343,
+            "averageVolume": 1794025,
+            "volumeRatio": 0.5,
+            "fiveDayChange": -7.47
+          },
+          "score": 79
         },
         {
           "name": "POSCO홀딩스",
@@ -100,17 +129,25 @@
           "per": 14.9,
           "pbr": 0.53,
           "chart": [
-            443500,
-            443500,
-            443500,
-            443500,
-            443500,
+            486500,
+            467500,
+            463000,
+            440500,
+            417000,
             443500,
             447500
           ],
           "theme": "철강·2차전지 소재",
           "reason": "철강 업황 부담과 2차전지 소재 가치가 공존하지만 PBR 관점에서는 할인 구간입니다. PER 14.9배, PBR 0.53배를 함께 반영했습니다.",
-          "score": 72
+          "trend": {
+            "source": "FinanceDataReader",
+            "latestClose": 447500,
+            "latestVolume": 369792,
+            "averageVolume": 557679,
+            "volumeRatio": 0.66,
+            "fiveDayChange": -8.02
+          },
+          "score": 67
         },
         {
           "name": "삼성전자",
@@ -120,17 +157,25 @@
           "per": 12.4,
           "pbr": 1.12,
           "chart": [
-            299500,
-            299500,
-            299500,
-            299500,
-            299500,
+            296000,
+            270500,
+            281000,
+            275500,
+            276000,
             299500,
             292500
           ],
           "theme": "반도체·AI",
           "reason": "메모리 가격 회복과 온디바이스 AI 수요를 반영했고, 대형주 중 밸류에이션 부담이 낮습니다. PER 12.4배, PBR 1.12배를 함께 반영했습니다.",
-          "score": 61
+          "trend": {
+            "source": "FinanceDataReader",
+            "latestClose": 292500,
+            "latestVolume": 18194628,
+            "averageVolume": 33105488,
+            "volumeRatio": 0.55,
+            "fiveDayChange": -1.18
+          },
+          "score": 60
         }
       ]
     },
@@ -145,57 +190,25 @@
           "per": 18.4,
           "pbr": 3.01,
           "chart": [
-            60900,
-            60900,
-            60900,
-            60900,
-            60900,
+            59000,
+            63500,
+            61000,
+            62100,
+            59500,
             60900,
             61600
           ],
           "theme": "엔터테인먼트",
           "reason": "콘텐츠 모멘텀 둔화 우려가 반영됐고, 신인 라인업 성과 확인 후 재평가 여지가 있습니다. PER 18.4배, PBR 3.01배를 함께 반영했습니다.",
-          "score": 36
-        },
-        {
-          "name": "리노공업",
-          "code": "058470",
-          "price": 106500,
-          "change": 2.4,
-          "per": 22.7,
-          "pbr": 4.23,
-          "chart": [
-            104000,
-            104000,
-            104000,
-            104000,
-            104000,
-            104000,
-            106500
-          ],
-          "theme": "반도체 장비",
-          "reason": "반도체 테스트 소켓 경쟁력이 높고 AI 서버 투자 회복의 간접 수혜가 예상됩니다. PER 22.7배, PBR 4.23배를 함께 반영했습니다.",
-          "score": 21
-        },
-        {
-          "name": "HPSP",
-          "code": "403870",
-          "price": 54700,
-          "change": 2.43,
-          "per": 24.6,
-          "pbr": 6.12,
-          "chart": [
-            53400,
-            53400,
-            53400,
-            53400,
-            53400,
-            53400,
-            54700
-          ],
-          "theme": "반도체 장비",
-          "reason": "고압 수소 어닐링 장비 수요는 견조하지만 PBR이 높아 후순위 후보로 분류했습니다. PER 24.6배, PBR 6.12배를 함께 반영했습니다.",
-          "score": 18
+          "trend": {
+            "source": "FinanceDataReader",
+            "latestClose": 61600,
+            "latestVolume": 176981,
+            "averageVolume": 313611,
+            "volumeRatio": 0.56,
+            "fiveDayChange": 4.41
+          },
+          "score": 37
         },
         {
           "name": "에코프로비엠",
@@ -205,17 +218,81 @@
           "per": 31.2,
           "pbr": 3.48,
           "chart": [
-            195000,
-            195000,
-            195000,
-            195000,
-            195000,
+            209000,
+            190500,
+            190400,
+            182400,
+            176700,
             195000,
             216000
           ],
           "theme": "2차전지",
           "reason": "업황 회복 속도는 확인이 필요하지만 거래대금과 수급 개선 가능성이 있습니다. PER 31.2배, PBR 3.48배를 함께 반영했습니다.",
-          "score": 16
+          "trend": {
+            "source": "FinanceDataReader",
+            "latestClose": 216000,
+            "latestVolume": 1138429,
+            "averageVolume": 721197,
+            "volumeRatio": 1.58,
+            "fiveDayChange": 3.35
+          },
+          "score": 19
+        },
+        {
+          "name": "리노공업",
+          "code": "058470",
+          "price": 106500,
+          "change": 2.4,
+          "per": 22.7,
+          "pbr": 4.23,
+          "chart": [
+            114200,
+            101000,
+            101000,
+            96100,
+            96700,
+            104000,
+            106500
+          ],
+          "theme": "반도체 장비",
+          "reason": "반도체 테스트 소켓 경쟁력이 높고 AI 서버 투자 회복의 간접 수혜가 예상됩니다. PER 22.7배, PBR 4.23배를 함께 반영했습니다.",
+          "trend": {
+            "source": "FinanceDataReader",
+            "latestClose": 106500,
+            "latestVolume": 604308,
+            "averageVolume": 769266,
+            "volumeRatio": 0.79,
+            "fiveDayChange": -6.74
+          },
+          "score": 17
+        },
+        {
+          "name": "HPSP",
+          "code": "403870",
+          "price": 54700,
+          "change": 2.43,
+          "per": 24.6,
+          "pbr": 6.12,
+          "chart": [
+            54700,
+            49500,
+            52200,
+            49000,
+            48400,
+            53400,
+            54700
+          ],
+          "theme": "반도체 장비",
+          "reason": "고압 수소 어닐링 장비 수요는 견조하지만 PBR이 높아 후순위 후보로 분류했습니다. PER 24.6배, PBR 6.12배를 함께 반영했습니다.",
+          "trend": {
+            "source": "FinanceDataReader",
+            "latestClose": 54700,
+            "latestVolume": 1687937,
+            "averageVolume": 2012851,
+            "volumeRatio": 0.84,
+            "fiveDayChange": 0.0
+          },
+          "score": 17
         },
         {
           "name": "셀트리온제약",
@@ -225,17 +302,25 @@
           "per": 42.8,
           "pbr": 5.64,
           "chart": [
-            48400,
-            48400,
-            48400,
-            48400,
-            48400,
+            52500,
+            50900,
+            49450,
+            49150,
+            47000,
             48400,
             51200
           ],
           "theme": "바이오",
           "reason": "바이오시밀러 판매 확대 기대가 있으나 고평가 부담이 있어 비중 제한이 필요합니다. PER 42.8배, PBR 5.64배를 함께 반영했습니다.",
-          "score": 10
+          "trend": {
+            "source": "FinanceDataReader",
+            "latestClose": 51200,
+            "latestVolume": 111744,
+            "averageVolume": 109075,
+            "volumeRatio": 1.02,
+            "fiveDayChange": -2.48
+          },
+          "score": 9
         }
       ]
     }
