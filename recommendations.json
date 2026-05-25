@@ -1,13 +1,13 @@
 {
   "asOf": "2026-05-25",
-  "generatedAt": "2026-05-25T10:05:21",
-  "source": "Naver Finance + FinanceDataReader",
-  "note": "Auto-updated quotes at 2026-05-25 10:05; history enriched by FinanceDataReader.",
+  "generatedAt": "2026-05-25T10:47:16",
+  "source": "KIS + FinanceDataReader",
+  "note": "Auto-updated quotes at 2026-05-25 10:47; history enriched by FinanceDataReader.",
   "quoteRefresh": {
     "source": "KIS if enabled, otherwise Naver Finance",
     "updated": 10,
     "providers": {
-      "Naver Finance": 10
+      "KIS": 10
     },
     "failed": []
   },
@@ -58,7 +58,7 @@
           ],
           "theme": "금융·저PBR",
           "reason": "저PBR 개선 정책 수혜와 자사주 소각 기대가 함께 반영되고 있습니다. PER 6.6배, PBR 0.48배를 함께 반영했습니다.",
-          "quoteSource": "Naver Finance",
+          "quoteSource": "KIS",
           "trend": {
             "source": "FinanceDataReader",
             "latestClose": 160000,
@@ -87,7 +87,7 @@
           ],
           "theme": "자동차·주주환원",
           "reason": "환율 효과와 주주환원 기대가 유지되는 가운데 PER/PBR이 업종 평균보다 낮습니다. PER 5.8배, PBR 0.64배를 함께 반영했습니다.",
-          "quoteSource": "Naver Finance",
+          "quoteSource": "KIS",
           "trend": {
             "source": "FinanceDataReader",
             "latestClose": 655000,
@@ -116,7 +116,7 @@
           ],
           "theme": "자동차·배당",
           "reason": "이익 안정성과 배당 매력이 높고, 글로벌 판매 둔화 우려가 가격에 일부 반영되었습니다. PER 5.1배, PBR 0.71배를 함께 반영했습니다.",
-          "quoteSource": "Naver Finance",
+          "quoteSource": "KIS",
           "trend": {
             "source": "FinanceDataReader",
             "latestClose": 164800,
@@ -145,7 +145,7 @@
           ],
           "theme": "철강·2차전지 소재",
           "reason": "철강 업황 부담과 2차전지 소재 가치가 공존하지만 PBR 관점에서는 할인 구간입니다. PER 14.9배, PBR 0.53배를 함께 반영했습니다.",
-          "quoteSource": "Naver Finance",
+          "quoteSource": "KIS",
           "trend": {
             "source": "FinanceDataReader",
             "latestClose": 447500,
@@ -174,7 +174,7 @@
           ],
           "theme": "반도체·AI",
           "reason": "메모리 가격 회복과 온디바이스 AI 수요를 반영했고, 대형주 중 밸류에이션 부담이 낮습니다. PER 12.4배, PBR 1.12배를 함께 반영했습니다.",
-          "quoteSource": "Naver Finance",
+          "quoteSource": "KIS",
           "trend": {
             "source": "FinanceDataReader",
             "latestClose": 292500,
@@ -208,7 +208,7 @@
           ],
           "theme": "엔터테인먼트",
           "reason": "콘텐츠 모멘텀 둔화 우려가 반영됐고, 신인 라인업 성과 확인 후 재평가 여지가 있습니다. PER 18.4배, PBR 3.01배를 함께 반영했습니다.",
-          "quoteSource": "Naver Finance",
+          "quoteSource": "KIS",
           "trend": {
             "source": "FinanceDataReader",
             "latestClose": 61600,
@@ -237,7 +237,7 @@
           ],
           "theme": "2차전지",
           "reason": "업황 회복 속도는 확인이 필요하지만 거래대금과 수급 개선 가능성이 있습니다. PER 31.2배, PBR 3.48배를 함께 반영했습니다.",
-          "quoteSource": "Naver Finance",
+          "quoteSource": "KIS",
           "trend": {
             "source": "FinanceDataReader",
             "latestClose": 216000,
@@ -266,7 +266,7 @@
           ],
           "theme": "반도체 장비",
           "reason": "반도체 테스트 소켓 경쟁력이 높고 AI 서버 투자 회복의 간접 수혜가 예상됩니다. PER 22.7배, PBR 4.23배를 함께 반영했습니다.",
-          "quoteSource": "Naver Finance",
+          "quoteSource": "KIS",
           "trend": {
             "source": "FinanceDataReader",
             "latestClose": 106500,
@@ -295,7 +295,7 @@
           ],
           "theme": "반도체 장비",
           "reason": "고압 수소 어닐링 장비 수요는 견조하지만 PBR이 높아 후순위 후보로 분류했습니다. PER 24.6배, PBR 6.12배를 함께 반영했습니다.",
-          "quoteSource": "Naver Finance",
+          "quoteSource": "KIS",
           "trend": {
             "source": "FinanceDataReader",
             "latestClose": 54700,
@@ -324,7 +324,7 @@
           ],
           "theme": "바이오",
           "reason": "바이오시밀러 판매 확대 기대가 있으나 고평가 부담이 있어 비중 제한이 필요합니다. PER 42.8배, PBR 5.64배를 함께 반영했습니다.",
-          "quoteSource": "Naver Finance",
+          "quoteSource": "KIS",
           "trend": {
             "source": "FinanceDataReader",
             "latestClose": 51200,
