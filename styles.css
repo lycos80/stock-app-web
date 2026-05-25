@@ -32,7 +32,8 @@ body {
 }
 
 button,
-input {
+input,
+select {
   font: inherit;
 }
 
@@ -281,7 +282,8 @@ h2 {
 }
 
 .dashboard-grid,
-.manage-grid {
+.manage-grid,
+.account-layout {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 18px;
@@ -458,7 +460,7 @@ h2 {
 
 .detail-metrics {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 8px;
   margin-top: 14px;
 }
@@ -584,6 +586,131 @@ h2 {
   text-align: right;
 }
 
+.account-summary-panel,
+.holdings-panel,
+.broker-panel {
+  min-width: 0;
+}
+
+.account-metrics {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.holding-list {
+  display: grid;
+  gap: 10px;
+}
+
+.holding-row {
+  display: grid;
+  grid-template-columns: minmax(130px, 1.4fr) repeat(4, minmax(92px, 1fr));
+  gap: 10px;
+  align-items: center;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface-soft);
+}
+
+.holding-row span,
+.holding-row small,
+.holding-row strong {
+  display: block;
+  min-width: 0;
+}
+
+.holding-row small {
+  margin-bottom: 3px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.holding-row strong {
+  overflow-wrap: anywhere;
+}
+
+.empty-state {
+  margin: 0;
+  padding: 18px;
+  border: 1px dashed var(--line);
+  border-radius: 8px;
+  color: var(--muted);
+  text-align: center;
+}
+
+.broker-tabs {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.broker-tab {
+  min-height: 58px;
+  padding: 10px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface-soft);
+  color: var(--text);
+  text-align: left;
+}
+
+.broker-tab.active {
+  border-color: #9bbdff;
+  background: #f3f7ff;
+}
+
+.broker-tab strong,
+.broker-tab span {
+  display: block;
+}
+
+.broker-tab span {
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.broker-form {
+  display: grid;
+  gap: 12px;
+}
+
+.broker-form label:not(.switch-row) {
+  display: grid;
+  gap: 6px;
+}
+
+.broker-form label > span {
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.broker-form input,
+.broker-form select {
+  width: 100%;
+  min-height: 42px;
+  padding: 0 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--text);
+}
+
+.switch-row.inline {
+  padding: 8px 0;
+  border-top: 0;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 120px;
+  gap: 10px;
+}
+
 .up {
   color: var(--green);
 }
@@ -611,6 +738,7 @@ h2 {
 @media (max-width: 1180px) {
   .dashboard-grid,
   .manage-grid,
+  .account-layout,
   .stocks-layout {
     grid-template-columns: 1fr;
   }
@@ -643,7 +771,7 @@ h2 {
 
   .nav-list {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     width: min(420px, 100%);
     gap: 6px;
   }
@@ -748,6 +876,16 @@ h2 {
   .detail-metrics {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 6px;
+  }
+
+  .account-metrics,
+  .broker-tabs,
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .holding-row {
+    grid-template-columns: 1fr 1fr;
   }
 
   .chart-summary strong {
