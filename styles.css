@@ -458,6 +458,12 @@ h2 {
   font-weight: 800;
 }
 
+.select-hint.owned {
+  border-color: #b7e3d4;
+  background: #e7f7f0;
+  color: var(--green);
+}
+
 .detail-metrics {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -603,9 +609,46 @@ h2 {
   gap: 10px;
 }
 
+.holding-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.holding-actions select {
+  min-height: 34px;
+  padding: 0 10px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.account-insights {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.insight-chip {
+  display: inline-flex;
+  min-height: 30px;
+  align-items: center;
+  padding: 0 10px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--surface-soft);
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 800;
+}
+
 .holding-row {
   display: grid;
-  grid-template-columns: minmax(130px, 1.4fr) repeat(4, minmax(92px, 1fr));
+  grid-template-columns: minmax(130px, 1.4fr) repeat(5, minmax(88px, 1fr));
   gap: 10px;
   align-items: center;
   padding: 12px;
@@ -629,6 +672,28 @@ h2 {
 
 .holding-row strong {
   overflow-wrap: anywhere;
+}
+
+.holding-label {
+  display: inline-flex;
+  min-height: 28px;
+  width: fit-content;
+  align-items: center;
+  padding: 0 8px;
+  border-radius: 999px;
+  background: #eef1f5;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.holding-label.owned {
+  background: #e7f7f0;
+  color: var(--green);
+}
+
+.holding-label.warn {
+  background: #fff5df;
+  color: var(--amber);
 }
 
 .empty-state {
@@ -796,6 +861,15 @@ h2 {
     flex-direction: column;
   }
 
+  .holding-actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .holding-actions select {
+    width: 100%;
+  }
+
   .top-actions,
   .approval-actions {
     width: 100%;
@@ -914,5 +988,13 @@ h2 {
 
   .market-strip {
     grid-template-columns: 1fr 1fr;
+  }
+
+  .holding-row {
+    grid-template-columns: 1fr;
+  }
+
+  .account-insights {
+    display: grid;
   }
 }

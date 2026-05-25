@@ -173,8 +173,17 @@
                   <p class="eyebrow">보유 종목</p>
                   <h2>수량과 평균단가</h2>
                 </div>
-                <span class="status-pill muted" id="holdingCount">0개</span>
+                <div class="holding-actions">
+                  <select id="holdingSort" aria-label="보유 종목 정렬">
+                    <option value="evaluationAmount">평가금액순</option>
+                    <option value="profitLoss">손익순</option>
+                    <option value="profitLossRate">수익률순</option>
+                    <option value="name">이름순</option>
+                  </select>
+                  <span class="status-pill muted" id="holdingCount">0개</span>
+                </div>
               </div>
+              <div class="account-insights" id="accountInsights"></div>
               <div class="holding-list" id="holdingList"></div>
             </section>
 

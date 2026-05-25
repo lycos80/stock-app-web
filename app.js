@@ -24,6 +24,8 @@ const appState = {
   selectedStockCode: "",
   approval: null,
   selectedBroker: "kis",
+  account: null,
+  holdingSort: "evaluationAmount",
 };
 
 const selectors = {
@@ -52,7 +54,9 @@ const selectors = {
   accountTitle: document.querySelector("#accountTitle"),
   accountStatus: document.querySelector("#accountStatus"),
   accountMetrics: document.querySelector("#accountMetrics"),
+  accountInsights: document.querySelector("#accountInsights"),
   holdingCount: document.querySelector("#holdingCount"),
+  holdingSort: document.querySelector("#holdingSort"),
   holdingList: document.querySelector("#holdingList"),
   refreshAccount: document.querySelector("#refreshAccount"),
   brokerTabs: document.querySelector("#brokerTabs"),
@@ -137,6 +141,14 @@ function getSelectedStock() {
   return getAllStocks().find((stock) => stock.code === appState.selectedStockCode) || getMarketStocks()[0];
 }
 
+function recommendationByCode() {
+  return new Map(getAllStocks().map((stock) => [stock.code, stock]));
+}
+
+function holdingCodes() {
+  return new Set((appState.account?.holdings || []).map((holding) => holding.code));
+}
+
 function renderMarketSummary() {
   const { marketSummary } = appData;
   selectors.dataStamp.textContent = `데이터 기준: ${appData.asOf} · ${appData.source || "local"} · ${appData.note || "자동 생성 데이터"}`;
@@ -180,6 +192,7 @@ function renderTodayTopList() {
 }
 
 function renderRecommendations() {
+  const ownedCodes = holdingCodes();
   selectors.recommendationList.innerHTML = getMarketStocks()
     .map(
       (stock, index) => `
@@ -195,7 +208,7 @@ function renderRecommendations() {
               <em class="${stock.change >= 0 ? "up" : "down"}">${formatChange(stock.change)}</em>
             </span>
             <span class="score-badge">${stock.score}</span>
-            <span class="select-hint">보기</span>
+            <span class="select-hint ${ownedCodes.has(stock.code) ? "owned" : ""}">${ownedCodes.has(stock.code) ? "보유중" : "보기"}</span>
           </button>
         </article>
       `,
@@ -343,11 +356,14 @@ async function loadAccount() {
     }
 
     const account = payload.account;
+    appState.account = account;
     selectors.accountTitle.textContent = `${account.provider} ${account.accountNoMasked}`;
     selectors.accountStatus.textContent = `${account.virtual ? "모의투자" : "실전"} · ${account.fetchedAt}`;
     renderAccountMetrics(account.summary);
     renderHoldings(account.holdings || []);
+    renderRecommendations();
   } catch (error) {
+    appState.account = null;
     selectors.accountTitle.textContent = "로컬 전용 기능";
     selectors.accountStatus.textContent = "공개 웹에서는 계좌 정보를 표시하지 않습니다. PC의 로컬 주소에서 확인하세요.";
     renderAccountMetrics();
@@ -360,31 +376,84 @@ function renderAccountMetrics(summary = {}) {
     <div class="detail-metric"><span>총 평가금액</span><strong>${formatWon(summary.totalAmount)}</strong></div>
     <div class="detail-metric"><span>주식 평가금액</span><strong>${formatWon(summary.stockAmount)}</strong></div>
     <div class="detail-metric"><span>예수금</span><strong>${formatWon(summary.cashAmount)}</strong></div>
-    <div class="detail-metric"><span>평가손익</span><strong class="${summary.profitLoss >= 0 ? "up" : "down"}">${formatWon(summary.profitLoss)}</strong></div>
+    <div class="detail-metric"><span>평가손익</span><strong class="${summary.profitLoss >= 0 ? "up" : "down"}">${formatWon(summary.profitLoss)} (${formatChange(summary.profitLossRate || 0)})</strong></div>
+  `;
+}
+
+function holdingStatus(item, recommendation, totalAmount) {
+  const weight = totalAmount ? (Number(item.evaluationAmount || 0) / totalAmount) * 100 : 0;
+  if (!recommendation) {
+    return { label: "보유중", className: "muted", weight };
+  }
+  if (weight >= 35) {
+    return { label: "비중 과다", className: "warn", weight };
+  }
+  if (Number(item.profitLossRate || 0) <= -8) {
+    return { label: "손실 관리", className: "down", weight };
+  }
+  return { label: "추천권 보유", className: "owned", weight };
+}
+
+function sortHoldings(holdings) {
+  const sorted = holdings.slice();
+  const sortKey = appState.holdingSort;
+  sorted.sort((a, b) => {
+    if (sortKey === "name") {
+      return String(a.name || a.code).localeCompare(String(b.name || b.code), "ko-KR");
+    }
+    return Number(b[sortKey] || 0) - Number(a[sortKey] || 0);
+  });
+  return sorted;
+}
+
+function renderAccountInsights(holdings) {
+  if (!selectors.accountInsights) return;
+  const totalAmount = Number(appState.account?.summary?.totalAmount || 0);
+  const recommendationMap = recommendationByCode();
+  const ownedRecommended = holdings.filter((item) => recommendationMap.has(item.code)).length;
+  const largest = holdings
+    .slice()
+    .sort((a, b) => Number(b.evaluationAmount || 0) - Number(a.evaluationAmount || 0))[0];
+  const largestWeight = largest && totalAmount ? (Number(largest.evaluationAmount || 0) / totalAmount) * 100 : 0;
+  const totalProfitLoss = Number(appState.account?.summary?.profitLoss || 0);
+
+  selectors.accountInsights.innerHTML = `
+    <span class="insight-chip">추천 보유 ${ownedRecommended}개</span>
+    <span class="insight-chip">최대 비중 ${largest ? `${largest.name || largest.code} ${largestWeight.toFixed(1)}%` : "-"}</span>
+    <span class="insight-chip ${totalProfitLoss >= 0 ? "up" : "down"}">총 손익 ${formatWon(totalProfitLoss)}</span>
   `;
 }
 
 function renderHoldings(holdings) {
   selectors.holdingCount.textContent = `${holdings.length}개`;
+  renderAccountInsights(holdings);
   if (!holdings.length) {
-    selectors.holdingList.innerHTML = `<p class="empty-state">표시할 보유 종목이 없습니다.</p>`;
+    selectors.holdingList.innerHTML = `<p class="empty-state">표시할 보유 종목이 없습니다. 계좌 연결은 정상이며 현재 조회된 보유 종목이 없습니다.</p>`;
     return;
   }
 
-  selectors.holdingList.innerHTML = holdings
+  const recommendationMap = recommendationByCode();
+  const totalAmount = Number(appState.account?.summary?.totalAmount || 0);
+
+  selectors.holdingList.innerHTML = sortHoldings(holdings)
     .map(
-      (item) => `
+      (item) => {
+        const recommendation = recommendationMap.get(item.code);
+        const status = holdingStatus(item, recommendation, totalAmount);
+        return `
         <article class="holding-row">
           <span>
             <strong>${item.name || item.code}</strong>
-            <small>${item.code} · ${formatQuantity(item.quantity)}주</small>
+            <small>${item.code} · ${formatQuantity(item.quantity)}주 · 비중 ${status.weight.toFixed(1)}%</small>
           </span>
           <span><small>평균단가</small><strong>${formatWon(item.averagePrice)}</strong></span>
           <span><small>현재가</small><strong>${formatWon(item.currentPrice)}</strong></span>
           <span><small>평가금액</small><strong>${formatWon(item.evaluationAmount)}</strong></span>
           <span><small>손익</small><strong class="${item.profitLoss >= 0 ? "up" : "down"}">${formatWon(item.profitLoss)} (${formatChange(item.profitLossRate)})</strong></span>
+          <span><small>상태</small><strong class="holding-label ${status.className}">${status.label}</strong></span>
         </article>
-      `,
+      `;
+      },
     )
     .join("");
 }
@@ -508,6 +577,11 @@ function bindEvents() {
   });
 
   selectors.refreshAccount?.addEventListener("click", loadAccount);
+
+  selectors.holdingSort?.addEventListener("change", () => {
+    appState.holdingSort = selectors.holdingSort.value;
+    renderHoldings(appState.account?.holdings || []);
+  });
 
   selectors.brokerTabs?.addEventListener("click", (event) => {
     const button = event.target.closest("[data-provider]");
