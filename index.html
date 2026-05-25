@@ -210,14 +210,22 @@
                     <option value="toss">토스증권</option>
                   </select>
                 </label>
-                <label class="switch-row inline">
-                  <input type="checkbox" id="brokerEnabled" />
-                  <span>이 연결 사용</span>
-                </label>
-                <label class="switch-row inline">
-                  <input type="checkbox" id="brokerVirtual" checked />
-                  <span>모의투자 서버 사용</span>
-                </label>
+                <div class="broker-options">
+                  <label class="switch-row inline setting-toggle">
+                    <span>
+                      <strong>이 연결 사용</strong>
+                      <small>선택한 증권사 API를 계좌 조회에 사용합니다.</small>
+                    </span>
+                    <input type="checkbox" id="brokerEnabled" />
+                  </label>
+                  <label class="switch-row inline setting-toggle">
+                    <span>
+                      <strong>모의투자 서버</strong>
+                      <small>실전 계좌 앱키라면 꺼두세요.</small>
+                    </span>
+                    <input type="checkbox" id="brokerVirtual" checked />
+                  </label>
+                </div>
                 <label>
                   <span>App Key</span>
                   <input type="password" id="brokerAppKey" autocomplete="off" placeholder="발급받은 앱키" />

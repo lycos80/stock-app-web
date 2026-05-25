@@ -856,7 +856,7 @@ h2 {
   font-weight: 800;
 }
 
-.broker-form input,
+.broker-form input:not([type="checkbox"]),
 .broker-form select {
   width: 100%;
   min-height: 42px;
@@ -870,6 +870,75 @@ h2 {
 .switch-row.inline {
   padding: 8px 0;
   border-top: 0;
+}
+
+.broker-options {
+  display: grid;
+  gap: 8px;
+}
+
+.setting-toggle {
+  justify-content: space-between;
+  gap: 14px;
+  min-height: 58px;
+  padding: 11px 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface-soft);
+}
+
+.setting-toggle span {
+  display: grid;
+  gap: 3px;
+  min-width: 0;
+}
+
+.setting-toggle strong {
+  color: var(--text);
+  font-size: 14px;
+}
+
+.setting-toggle small {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.setting-toggle input[type="checkbox"] {
+  position: relative;
+  flex: 0 0 auto;
+  width: 48px;
+  height: 28px;
+  margin: 0;
+  border: 1px solid #c8d2df;
+  border-radius: 999px;
+  appearance: none;
+  background: #dfe6ef;
+  accent-color: var(--blue);
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.setting-toggle input[type="checkbox"]::after {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 20px;
+  height: 20px;
+  border-radius: 999px;
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(18, 33, 52, 0.25);
+  transition: transform 0.15s ease;
+}
+
+.setting-toggle input[type="checkbox"]:checked {
+  border-color: var(--blue);
+  background: var(--blue);
+}
+
+.setting-toggle input[type="checkbox"]:checked::after {
+  transform: translateX(20px);
 }
 
 .form-grid {
