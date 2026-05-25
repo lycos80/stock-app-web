@@ -54,6 +54,8 @@ const selectors = {
   accountTitle: document.querySelector("#accountTitle"),
   accountStatus: document.querySelector("#accountStatus"),
   accountMetrics: document.querySelector("#accountMetrics"),
+  allocationBar: document.querySelector("#allocationBar"),
+  accountDecisionGrid: document.querySelector("#accountDecisionGrid"),
   accountInsights: document.querySelector("#accountInsights"),
   holdingCount: document.querySelector("#holdingCount"),
   holdingSort: document.querySelector("#holdingSort"),
@@ -372,24 +374,45 @@ async function loadAccount() {
 }
 
 function renderAccountMetrics(summary = {}) {
+  const totalAmount = Number(summary.totalAmount || 0);
+  const stockAmount = Number(summary.stockAmount || 0);
+  const cashAmount = Number(summary.cashAmount || 0);
+  const profitLoss = Number(summary.profitLoss || 0);
+  const profitLossRate = Number(summary.profitLossRate || 0);
+  const stockRatio = totalAmount ? Math.min(100, Math.max(0, (stockAmount / totalAmount) * 100)) : 0;
+  const cashRatio = totalAmount ? Math.min(100, Math.max(0, (cashAmount / totalAmount) * 100)) : 0;
+
   selectors.accountMetrics.innerHTML = `
-    <div class="detail-metric"><span>총 평가금액</span><strong>${formatWon(summary.totalAmount)}</strong></div>
-    <div class="detail-metric"><span>주식 평가금액</span><strong>${formatWon(summary.stockAmount)}</strong></div>
-    <div class="detail-metric"><span>예수금</span><strong>${formatWon(summary.cashAmount)}</strong></div>
-    <div class="detail-metric"><span>평가손익</span><strong class="${summary.profitLoss >= 0 ? "up" : "down"}">${formatWon(summary.profitLoss)} (${formatChange(summary.profitLossRate || 0)})</strong></div>
+    <div class="detail-metric"><span>총 평가금액</span><strong>${formatWon(totalAmount)}</strong></div>
+    <div class="detail-metric"><span>주식 평가금액</span><strong>${formatWon(stockAmount)}</strong></div>
+    <div class="detail-metric"><span>예수금</span><strong>${formatWon(cashAmount)}</strong></div>
+    <div class="detail-metric"><span>평가손익</span><strong class="${profitLoss >= 0 ? "up" : "down"}">${formatWon(profitLoss)} (${formatChange(profitLossRate)})</strong></div>
   `;
+
+  if (selectors.allocationBar) {
+    selectors.allocationBar.innerHTML = `
+      <div class="allocation-track">
+        <span class="allocation-stock" style="width: ${stockRatio}%"></span>
+        <span class="allocation-cash" style="width: ${cashRatio}%"></span>
+      </div>
+      <div class="allocation-legend">
+        <span><i class="stock-dot"></i>주식 ${stockRatio.toFixed(1)}%</span>
+        <span><i class="cash-dot"></i>현금 ${cashRatio.toFixed(1)}%</span>
+      </div>
+    `;
+  }
 }
 
 function holdingStatus(item, recommendation, totalAmount) {
   const weight = totalAmount ? (Number(item.evaluationAmount || 0) / totalAmount) * 100 : 0;
-  if (!recommendation) {
-    return { label: "보유중", className: "muted", weight };
-  }
   if (weight >= 35) {
-    return { label: "비중 과다", className: "warn", weight };
+    return { label: "비중 점검", className: "warn", weight };
   }
   if (Number(item.profitLossRate || 0) <= -8) {
     return { label: "손실 관리", className: "down", weight };
+  }
+  if (!recommendation) {
+    return { label: "보유중", className: "muted", weight };
   }
   return { label: "추천권 보유", className: "owned", weight };
 }
@@ -409,6 +432,8 @@ function sortHoldings(holdings) {
 function renderAccountInsights(holdings) {
   if (!selectors.accountInsights) return;
   const totalAmount = Number(appState.account?.summary?.totalAmount || 0);
+  const cashAmount = Number(appState.account?.summary?.cashAmount || 0);
+  const cashRatio = totalAmount ? (cashAmount / totalAmount) * 100 : 0;
   const recommendationMap = recommendationByCode();
   const ownedRecommended = holdings.filter((item) => recommendationMap.has(item.code)).length;
   const largest = holdings
@@ -416,17 +441,75 @@ function renderAccountInsights(holdings) {
     .sort((a, b) => Number(b.evaluationAmount || 0) - Number(a.evaluationAmount || 0))[0];
   const largestWeight = largest && totalAmount ? (Number(largest.evaluationAmount || 0) / totalAmount) * 100 : 0;
   const totalProfitLoss = Number(appState.account?.summary?.profitLoss || 0);
+  const watchCount = holdings.filter((item) => {
+    const status = holdingStatus(item, recommendationMap.get(item.code), totalAmount);
+    return status.className === "warn" || status.className === "down";
+  }).length;
 
   selectors.accountInsights.innerHTML = `
     <span class="insight-chip">추천 보유 ${ownedRecommended}개</span>
     <span class="insight-chip">최대 비중 ${largest ? `${largest.name || largest.code} ${largestWeight.toFixed(1)}%` : "-"}</span>
+    <span class="insight-chip">현금 ${cashRatio.toFixed(1)}%</span>
+    <span class="insight-chip ${watchCount ? "warn" : ""}">관리 필요 ${watchCount}개</span>
     <span class="insight-chip ${totalProfitLoss >= 0 ? "up" : "down"}">총 손익 ${formatWon(totalProfitLoss)}</span>
+  `;
+}
+
+function renderAccountDecisions(holdings) {
+  if (!selectors.accountDecisionGrid) return;
+  const totalAmount = Number(appState.account?.summary?.totalAmount || 0);
+  const cashAmount = Number(appState.account?.summary?.cashAmount || 0);
+  const cashRatio = totalAmount ? (cashAmount / totalAmount) * 100 : 0;
+  const recommendationMap = recommendationByCode();
+  const holdingCodeSet = new Set(holdings.map((item) => item.code));
+  const newCandidates = getAllStocks()
+    .filter((stock) => !holdingCodeSet.has(stock.code))
+    .sort((a, b) => Number(b.score || 0) - Number(a.score || 0))
+    .slice(0, 3);
+  const watchItems = holdings
+    .map((item) => ({
+      ...item,
+      status: holdingStatus(item, recommendationMap.get(item.code), totalAmount),
+    }))
+    .filter((item) => item.status.className === "warn" || item.status.className === "down")
+    .slice(0, 3);
+  const ownedRecommended = holdings.filter((item) => recommendationMap.has(item.code)).slice(0, 3);
+  const cashMessage = cashRatio >= 70 ? "현금 여유가 커서 신규 후보를 천천히 검토하기 좋습니다." : cashRatio >= 25 ? "현금과 주식 비중이 비교적 균형적입니다." : "현금 비중이 낮아 추가 매수 전 보유 종목 점검이 먼저입니다.";
+
+  const candidateText = newCandidates.length
+    ? newCandidates.map((stock) => `${stock.name} ${stock.score}점`).join(", ")
+    : "새 후보 없음";
+  const watchText = watchItems.length
+    ? watchItems.map((item) => `${item.name || item.code} ${item.status.label}`).join(", ")
+    : "점검 대상 없음";
+  const ownedText = ownedRecommended.length
+    ? ownedRecommended.map((item) => `${item.name || item.code}`).join(", ")
+    : "추천권 보유 없음";
+
+  selectors.accountDecisionGrid.innerHTML = `
+    <article class="decision-card">
+      <span>매수 후보</span>
+      <strong>${candidateText}</strong>
+    </article>
+    <article class="decision-card">
+      <span>보유 유지</span>
+      <strong>${ownedText}</strong>
+    </article>
+    <article class="decision-card ${watchItems.length ? "warn" : ""}">
+      <span>주의 필요</span>
+      <strong>${watchText}</strong>
+    </article>
+    <article class="decision-card">
+      <span>현금 판단</span>
+      <strong>${cashMessage}</strong>
+    </article>
   `;
 }
 
 function renderHoldings(holdings) {
   selectors.holdingCount.textContent = `${holdings.length}개`;
   renderAccountInsights(holdings);
+  renderAccountDecisions(holdings);
   if (!holdings.length) {
     selectors.holdingList.innerHTML = `<p class="empty-state">표시할 보유 종목이 없습니다. 계좌 연결은 정상이며 현재 조회된 보유 종목이 없습니다.</p>`;
     return;
