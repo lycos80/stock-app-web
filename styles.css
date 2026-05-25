@@ -528,6 +528,72 @@ h2 {
   font-size: 12px;
 }
 
+.score-breakdown {
+  display: grid;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.score-bars {
+  display: grid;
+  gap: 8px;
+}
+
+.score-bar-row {
+  display: grid;
+  grid-template-columns: 70px minmax(0, 1fr) 46px;
+  gap: 8px;
+  align-items: center;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.score-track {
+  height: 8px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #edf1f6;
+}
+
+.score-track i {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--blue);
+}
+
+.score-bar-row strong {
+  color: var(--text);
+  text-align: right;
+}
+
+.warning-list {
+  display: grid;
+  gap: 4px;
+  padding: 10px 12px;
+  border: 1px solid #f0cf91;
+  border-radius: 8px;
+  background: #fff9ec;
+  color: #5f4a1f;
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.warning-list strong {
+  color: var(--amber);
+}
+
+.warning-list.muted {
+  border-color: var(--line);
+  background: var(--surface-soft);
+  color: var(--muted);
+}
+
+.warning-list.muted strong {
+  color: var(--muted);
+}
+
 .status-pill {
   padding: 6px 9px;
   border-radius: 999px;

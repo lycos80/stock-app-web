@@ -1,13 +1,14 @@
 {
   "asOf": "2026-05-25",
-  "generatedAt": "2026-05-25T10:47:16",
-  "source": "KIS + FinanceDataReader",
-  "note": "Auto-updated quotes at 2026-05-25 10:47; history enriched by FinanceDataReader.",
+  "generatedAt": "2026-05-25T19:25:45",
+  "source": "KIS + Naver Finance + FinanceDataReader",
+  "note": "Auto-updated quotes at 2026-05-25 19:25; history enriched by FinanceDataReader.",
   "quoteRefresh": {
     "source": "KIS if enabled, otherwise Naver Finance",
     "updated": 10,
     "providers": {
-      "KIS": 10
+      "KIS": 8,
+      "Naver Finance": 2
     },
     "failed": []
   },
@@ -32,9 +33,9 @@
     }
   },
   "issues": [
-    "저PER·저PBR 종목에 가산점을 주고, 단기 등락률은 보조 지표로만 반영했습니다.",
-    "고평가 구간의 성장주는 점수가 낮아지도록 보수적으로 계산했습니다.",
-    "현재 단계는 API 연동 전 후보군 점수화이며, 자동 주문은 실행하지 않습니다."
+    "추천 점수는 가치, 단기 흐름, 5일 추세, 거래량, 계좌 적합도를 나누어 계산합니다.",
+    "고PER·고PBR 종목과 단기 급등 종목은 주의 사유를 함께 표시합니다.",
+    "현재 단계는 조회와 판단 보조용이며, 자동 주문은 실행하지 않습니다."
   ],
   "markets": {
     "kospi": {
@@ -57,8 +58,8 @@
             160000
           ],
           "theme": "금융·저PBR",
-          "reason": "저PBR 개선 정책 수혜와 자사주 소각 기대가 함께 반영되고 있습니다. PER 6.6배, PBR 0.48배를 함께 반영했습니다.",
-          "quoteSource": "KIS",
+          "reason": "저PBR 개선 정책 수혜와 자사주 소각 기대가 함께 반영되고 있습니다. 가치 40점, 추세 10점, 거래량 6점, 계좌적합 10점을 반영했습니다.",
+          "quoteSource": "Naver Finance",
           "trend": {
             "source": "FinanceDataReader",
             "latestClose": 160000,
@@ -67,36 +68,16 @@
             "volumeRatio": 0.94,
             "fiveDayChange": 2.56
           },
-          "score": 93
-        },
-        {
-          "name": "현대차",
-          "code": "005380",
-          "price": 655000,
-          "change": -1.65,
-          "per": 5.8,
-          "pbr": 0.64,
-          "chart": [
-            712000,
-            700000,
-            663000,
-            604000,
-            592000,
-            666000,
-            655000
-          ],
-          "theme": "자동차·주주환원",
-          "reason": "환율 효과와 주주환원 기대가 유지되는 가운데 PER/PBR이 업종 평균보다 낮습니다. PER 5.8배, PBR 0.64배를 함께 반영했습니다.",
-          "quoteSource": "KIS",
-          "trend": {
-            "source": "FinanceDataReader",
-            "latestClose": 655000,
-            "latestVolume": 997831,
-            "averageVolume": 2359240,
-            "volumeRatio": 0.42,
-            "fiveDayChange": -8.01
+          "score": 78,
+          "scoreBreakdown": {
+            "value": 40,
+            "momentum": 12,
+            "trend": 10,
+            "volume": 6,
+            "accountFit": 10,
+            "total": 78
           },
-          "score": 79
+          "warnings": []
         },
         {
           "name": "기아",
@@ -115,8 +96,8 @@
             164800
           ],
           "theme": "자동차·배당",
-          "reason": "이익 안정성과 배당 매력이 높고, 글로벌 판매 둔화 우려가 가격에 일부 반영되었습니다. PER 5.1배, PBR 0.71배를 함께 반영했습니다.",
-          "quoteSource": "KIS",
+          "reason": "이익 안정성과 배당 매력이 높고, 글로벌 판매 둔화 우려가 가격에 일부 반영되었습니다. 가치 40점, 추세 1점, 거래량 4점, 계좌적합 10점을 반영했습니다.",
+          "quoteSource": "Naver Finance",
           "trend": {
             "source": "FinanceDataReader",
             "latestClose": 164800,
@@ -125,7 +106,58 @@
             "volumeRatio": 0.5,
             "fiveDayChange": -7.47
           },
-          "score": 79
+          "score": 62,
+          "scoreBreakdown": {
+            "value": 40,
+            "momentum": 7,
+            "trend": 1,
+            "volume": 4,
+            "accountFit": 10,
+            "total": 62
+          },
+          "warnings": [
+            "최근 5일 흐름이 약합니다."
+          ]
+        },
+        {
+          "name": "현대차",
+          "code": "005380",
+          "price": 655000,
+          "change": -1.65,
+          "per": 5.8,
+          "pbr": 0.64,
+          "chart": [
+            712000,
+            700000,
+            663000,
+            604000,
+            592000,
+            666000,
+            655000
+          ],
+          "theme": "자동차·주주환원",
+          "reason": "환율 효과와 주주환원 기대가 유지되는 가운데 PER/PBR이 업종 평균보다 낮습니다. 가치 40점, 추세 1점, 거래량 3점, 계좌적합 10점을 반영했습니다.",
+          "quoteSource": "KIS",
+          "trend": {
+            "source": "FinanceDataReader",
+            "latestClose": 655000,
+            "latestVolume": 997831,
+            "averageVolume": 2359240,
+            "volumeRatio": 0.42,
+            "fiveDayChange": -8.01
+          },
+          "score": 61,
+          "scoreBreakdown": {
+            "value": 40,
+            "momentum": 7,
+            "trend": 1,
+            "volume": 3,
+            "accountFit": 10,
+            "total": 61
+          },
+          "warnings": [
+            "최근 5일 흐름이 약합니다."
+          ]
         },
         {
           "name": "POSCO홀딩스",
@@ -144,7 +176,7 @@
             447500
           ],
           "theme": "철강·2차전지 소재",
-          "reason": "철강 업황 부담과 2차전지 소재 가치가 공존하지만 PBR 관점에서는 할인 구간입니다. PER 14.9배, PBR 0.53배를 함께 반영했습니다.",
+          "reason": "철강 업황 부담과 2차전지 소재 가치가 공존하지만 PBR 관점에서는 할인 구간입니다. 가치 31점, 추세 1점, 거래량 4점, 계좌적합 10점을 반영했습니다.",
           "quoteSource": "KIS",
           "trend": {
             "source": "FinanceDataReader",
@@ -154,7 +186,18 @@
             "volumeRatio": 0.66,
             "fiveDayChange": -8.02
           },
-          "score": 67
+          "score": 55,
+          "scoreBreakdown": {
+            "value": 31,
+            "momentum": 9,
+            "trend": 1,
+            "volume": 4,
+            "accountFit": 10,
+            "total": 55
+          },
+          "warnings": [
+            "최근 5일 흐름이 약합니다."
+          ]
         },
         {
           "name": "삼성전자",
@@ -173,7 +216,7 @@
             292500
           ],
           "theme": "반도체·AI",
-          "reason": "메모리 가격 회복과 온디바이스 AI 수요를 반영했고, 대형주 중 밸류에이션 부담이 낮습니다. PER 12.4배, PBR 1.12배를 함께 반영했습니다.",
+          "reason": "메모리 가격 회복과 온디바이스 AI 수요를 반영했고, 대형주 중 밸류에이션 부담이 낮습니다. 가치 26점, 추세 7점, 거래량 4점, 계좌적합 10점을 반영했습니다.",
           "quoteSource": "KIS",
           "trend": {
             "source": "FinanceDataReader",
@@ -183,7 +226,16 @@
             "volumeRatio": 0.55,
             "fiveDayChange": -1.18
           },
-          "score": 60
+          "score": 53,
+          "scoreBreakdown": {
+            "value": 26,
+            "momentum": 6,
+            "trend": 7,
+            "volume": 4,
+            "accountFit": 10,
+            "total": 53
+          },
+          "warnings": []
         }
       ]
     },
@@ -207,7 +259,7 @@
             61600
           ],
           "theme": "엔터테인먼트",
-          "reason": "콘텐츠 모멘텀 둔화 우려가 반영됐고, 신인 라인업 성과 확인 후 재평가 여지가 있습니다. PER 18.4배, PBR 3.01배를 함께 반영했습니다.",
+          "reason": "콘텐츠 모멘텀 둔화 우려가 반영됐고, 신인 라인업 성과 확인 후 재평가 여지가 있습니다. 가치 13점, 추세 12점, 거래량 4점, 계좌적합 10점을 반영했습니다.",
           "quoteSource": "KIS",
           "trend": {
             "source": "FinanceDataReader",
@@ -217,7 +269,16 @@
             "volumeRatio": 0.56,
             "fiveDayChange": 4.41
           },
-          "score": 37
+          "score": 48,
+          "scoreBreakdown": {
+            "value": 13,
+            "momentum": 9,
+            "trend": 12,
+            "volume": 4,
+            "accountFit": 10,
+            "total": 48
+          },
+          "warnings": []
         },
         {
           "name": "에코프로비엠",
@@ -236,7 +297,7 @@
             216000
           ],
           "theme": "2차전지",
-          "reason": "업황 회복 속도는 확인이 필요하지만 거래대금과 수급 개선 가능성이 있습니다. PER 31.2배, PBR 3.48배를 함께 반영했습니다.",
+          "reason": "업황 회복 속도는 확인이 필요하지만 거래대금과 수급 개선 가능성이 있습니다. 가치 2점, 추세 11점, 거래량 9점, 계좌적합 10점을 반영했습니다.",
           "quoteSource": "KIS",
           "trend": {
             "source": "FinanceDataReader",
@@ -246,36 +307,19 @@
             "volumeRatio": 1.58,
             "fiveDayChange": 3.35
           },
-          "score": 19
-        },
-        {
-          "name": "리노공업",
-          "code": "058470",
-          "price": 106500,
-          "change": 2.4,
-          "per": 22.7,
-          "pbr": 4.23,
-          "chart": [
-            114200,
-            101000,
-            101000,
-            96100,
-            96700,
-            104000,
-            106500
-          ],
-          "theme": "반도체 장비",
-          "reason": "반도체 테스트 소켓 경쟁력이 높고 AI 서버 투자 회복의 간접 수혜가 예상됩니다. PER 22.7배, PBR 4.23배를 함께 반영했습니다.",
-          "quoteSource": "KIS",
-          "trend": {
-            "source": "FinanceDataReader",
-            "latestClose": 106500,
-            "latestVolume": 604308,
-            "averageVolume": 769266,
-            "volumeRatio": 0.79,
-            "fiveDayChange": -6.74
+          "score": 47,
+          "scoreBreakdown": {
+            "value": 2,
+            "momentum": 15,
+            "trend": 11,
+            "volume": 9,
+            "accountFit": 10,
+            "total": 47
           },
-          "score": 17
+          "warnings": [
+            "PER가 높아 실적 확인이 필요합니다.",
+            "당일 상승폭이 커서 추격 매수에 주의가 필요합니다."
+          ]
         },
         {
           "name": "HPSP",
@@ -294,7 +338,7 @@
             54700
           ],
           "theme": "반도체 장비",
-          "reason": "고압 수소 어닐링 장비 수요는 견조하지만 PBR이 높아 후순위 후보로 분류했습니다. PER 24.6배, PBR 6.12배를 함께 반영했습니다.",
+          "reason": "고압 수소 어닐링 장비 수요는 견조하지만 PBR이 높아 후순위 후보로 분류했습니다. 가치 4점, 추세 8점, 거래량 5점, 계좌적합 10점을 반영했습니다.",
           "quoteSource": "KIS",
           "trend": {
             "source": "FinanceDataReader",
@@ -304,7 +348,18 @@
             "volumeRatio": 0.84,
             "fiveDayChange": 0.0
           },
-          "score": 17
+          "score": 38,
+          "scoreBreakdown": {
+            "value": 4,
+            "momentum": 11,
+            "trend": 8,
+            "volume": 5,
+            "accountFit": 10,
+            "total": 38
+          },
+          "warnings": [
+            "PBR이 높아 가격 부담을 점검해야 합니다."
+          ]
         },
         {
           "name": "셀트리온제약",
@@ -323,7 +378,7 @@
             51200
           ],
           "theme": "바이오",
-          "reason": "바이오시밀러 판매 확대 기대가 있으나 고평가 부담이 있어 비중 제한이 필요합니다. PER 42.8배, PBR 5.64배를 함께 반영했습니다.",
+          "reason": "바이오시밀러 판매 확대 기대가 있으나 고평가 부담이 있어 비중 제한이 필요합니다. 가치 0점, 추세 6점, 거래량 6점, 계좌적합 10점을 반영했습니다.",
           "quoteSource": "KIS",
           "trend": {
             "source": "FinanceDataReader",
@@ -333,7 +388,59 @@
             "volumeRatio": 1.02,
             "fiveDayChange": -2.48
           },
-          "score": 9
+          "score": 37,
+          "scoreBreakdown": {
+            "value": 0,
+            "momentum": 15,
+            "trend": 6,
+            "volume": 6,
+            "accountFit": 10,
+            "total": 37
+          },
+          "warnings": [
+            "PER가 높아 실적 확인이 필요합니다.",
+            "PBR이 높아 가격 부담을 점검해야 합니다."
+          ]
+        },
+        {
+          "name": "리노공업",
+          "code": "058470",
+          "price": 106500,
+          "change": 2.4,
+          "per": 22.7,
+          "pbr": 4.23,
+          "chart": [
+            114200,
+            101000,
+            101000,
+            96100,
+            96700,
+            104000,
+            106500
+          ],
+          "theme": "반도체 장비",
+          "reason": "반도체 테스트 소켓 경쟁력이 높고 AI 서버 투자 회복의 간접 수혜가 예상됩니다. 가치 5점, 추세 2점, 거래량 5점, 계좌적합 10점을 반영했습니다.",
+          "quoteSource": "KIS",
+          "trend": {
+            "source": "FinanceDataReader",
+            "latestClose": 106500,
+            "latestVolume": 604308,
+            "averageVolume": 769266,
+            "volumeRatio": 0.79,
+            "fiveDayChange": -6.74
+          },
+          "score": 33,
+          "scoreBreakdown": {
+            "value": 5,
+            "momentum": 11,
+            "trend": 2,
+            "volume": 5,
+            "accountFit": 10,
+            "total": 33
+          },
+          "warnings": [
+            "PBR이 높아 가격 부담을 점검해야 합니다."
+          ]
         }
       ]
     }

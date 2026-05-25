@@ -44,6 +44,7 @@ const selectors = {
   chartBox: document.querySelector("#chartBox"),
   chartDays: document.querySelector("#chartDays"),
   chartReason: document.querySelector("#chartReason"),
+  scoreBreakdown: document.querySelector("#scoreBreakdown"),
   dataStamp: document.querySelector("#dataStamp"),
   kospiValue: document.querySelector("#kospiValue"),
   kospiChange: document.querySelector("#kospiChange"),
@@ -169,7 +170,10 @@ function renderMarketSummary() {
 }
 
 function stockMetricLine(stock) {
-  return `현재가 ${formatWon(stock.price)} · PER ${stock.per} · PBR ${stock.pbr} · 점수 ${stock.score}`;
+  const breakdown = stock.scoreBreakdown || {};
+  const value = breakdown.value ?? "-";
+  const trend = breakdown.trend ?? "-";
+  return `현재가 ${formatWon(stock.price)} · 가치 ${value} · 추세 ${trend} · 점수 ${stock.score}`;
 }
 
 function renderTodayTopList() {
@@ -220,13 +224,52 @@ function renderRecommendations() {
 
 function renderChartMetrics(stock) {
   const trend = stock.trend || {};
+  const breakdown = stock.scoreBreakdown || {};
   selectors.chartMetrics.innerHTML = `
     <div class="detail-metric"><span>점수</span><strong>${stock.score}</strong></div>
-    <div class="detail-metric"><span>PER</span><strong>${stock.per}</strong></div>
-    <div class="detail-metric"><span>PBR</span><strong>${stock.pbr}</strong></div>
+    <div class="detail-metric"><span>가치</span><strong>${breakdown.value ?? "-"}</strong></div>
+    <div class="detail-metric"><span>단기 흐름</span><strong>${breakdown.momentum ?? "-"}</strong></div>
+    <div class="detail-metric"><span>5일 추세</span><strong>${breakdown.trend ?? "-"}</strong></div>
+    <div class="detail-metric"><span>거래량</span><strong>${breakdown.volume ?? "-"}</strong></div>
+    <div class="detail-metric"><span>계좌적합</span><strong>${breakdown.accountFit ?? "-"}</strong></div>
+    <div class="detail-metric"><span>PER/PBR</span><strong>${stock.per} / ${stock.pbr}</strong></div>
     <div class="detail-metric"><span>등락률</span><strong class="${stock.change >= 0 ? "up" : "down"}">${formatChange(stock.change)}</strong></div>
     <div class="detail-metric"><span>5일 흐름</span><strong class="${trend.fiveDayChange >= 0 ? "up" : "down"}">${formatChange(trend.fiveDayChange || 0)}</strong></div>
     <div class="detail-metric"><span>거래량비율</span><strong>${Number(trend.volumeRatio || 0).toFixed(2)}</strong></div>
+  `;
+}
+
+function renderScoreBreakdown(stock) {
+  if (!selectors.scoreBreakdown) return;
+  const breakdown = stock.scoreBreakdown || {};
+  const entries = [
+    ["가치", breakdown.value, 40],
+    ["단기 흐름", breakdown.momentum, 15],
+    ["5일 추세", breakdown.trend, 20],
+    ["거래량", breakdown.volume, 15],
+    ["계좌적합", breakdown.accountFit, 10],
+  ];
+  const warnings = stock.warnings || [];
+  selectors.scoreBreakdown.innerHTML = `
+    <div class="score-bars">
+      ${entries
+        .map(([label, value, max]) => {
+          const number = Number(value || 0);
+          const width = Math.max(0, Math.min(100, (number / max) * 100));
+          return `
+            <div class="score-bar-row">
+              <span>${label}</span>
+              <div class="score-track"><i style="width: ${width}%"></i></div>
+              <strong>${number}/${max}</strong>
+            </div>
+          `;
+        })
+        .join("")}
+    </div>
+    <div class="warning-list ${warnings.length ? "" : "muted"}">
+      <strong>주의 사유</strong>
+      <span>${warnings.length ? warnings.join(" · ") : "특별한 주의 사유가 없습니다."}</span>
+    </div>
   `;
 }
 
@@ -258,6 +301,7 @@ function renderChart() {
   selectors.chartChange.className = stock.change >= 0 ? "up" : "down";
   selectors.chartReason.textContent = stock.reason;
   renderChartMetrics(stock);
+  renderScoreBreakdown(stock);
   selectors.chartBox.innerHTML = `
     <svg viewBox="0 0 ${width} ${height}" role="img" aria-label="${stock.name} 7일 가격 흐름">
       <path d="${fillPath}" fill="${fillColor}"></path>
